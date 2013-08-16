@@ -29,6 +29,11 @@ spec = do
       it "duplicates value on the top of the stack" $ do
         "1 2 3 dup dup 5 dup" `shouldSetStackTo` Right "[1, 2, 3, 3, 3, 5, 5]"
 
+    describe "apply" $ do
+      it "evaluates value on top as a function" $ do
+        "1 2 [+] apply" `shouldSetStackTo` Right "[3]"
+        "1 1 [dup + dup [+] apply] apply" `shouldSetStackTo` Right "[1, 4]"
+
 shouldSetStackTo :: String -> Either String String -> Expectation
 shouldSetStackTo x y = show' (evalString x) `shouldBe` y
                        where
