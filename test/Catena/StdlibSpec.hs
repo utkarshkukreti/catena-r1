@@ -15,6 +15,5 @@ spec = do
         evalString "1 2 +" `shouldBe` Right State { stack = [Integer 3] }
         evalString "0 1 2 3 4 + - -" `shouldBe`
           Right State { stack = [Integer 6, Integer 0] }
-        evalString "2 3 ^ 6 - 10 * 3 /" `shouldBe`
-          Right State { stack = [Integer 6] }
-
+        evalString "2 3 ^ 6 - 10 * 3 / 17 13 %" `shouldBe`
+          Right State { stack = [Integer 4, Integer 6] }

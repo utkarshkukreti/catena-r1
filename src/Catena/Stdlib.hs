@@ -13,6 +13,7 @@ stdlib = Map.fromList [
     ("-", iii (-)),
     ("*", iii (*)),
     ("/", iii div),
+    ("%", iii rem),
     ("^", iii (^))
   ]
 
