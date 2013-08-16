@@ -11,7 +11,7 @@ Library
   build-depends:
       base == 4.*
     , containers
-    , attoparsec
+    , attoparsec >= 0.10.4.0
 
 test-suite spec
   ghc-options:         -Wall
@@ -21,5 +21,5 @@ test-suite spec
   build-depends:
       base == 4.*
     , containers
-    , attoparsec
+    , attoparsec >= 0.10.4.0
     , hspec >= 1.3
