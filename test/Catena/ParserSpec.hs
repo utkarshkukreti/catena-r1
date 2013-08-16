@@ -31,7 +31,7 @@ spec = do
 
       it "parses non-empty blocks" $ do
         parse "[1 2]" `shouldBe` Right (Block [Integer 1, Integer 2])
-        parse "[1     2      ]" `shouldBe` Right (Block [Integer 1, Integer 2])
+        parse "[ 1  2  ]" `shouldBe` Right (Block [Integer 1, Integer 2])
 
       it "parses recursive blocks" $ do
         parse "[1 [[2]] [\"abc\"]]" `shouldBe`
