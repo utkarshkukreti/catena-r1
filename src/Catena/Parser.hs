@@ -22,7 +22,7 @@ integer = fmap IntegerT $ signed decimal
 
 string :: Parser Token
 string = do
-  char '"'
+  _ <- char '"'
   s <- many $ notChar '"'
-  char '"'
+  _ <- char '"'
   return $ StringT s
