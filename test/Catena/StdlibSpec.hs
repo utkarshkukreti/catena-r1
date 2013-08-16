@@ -16,6 +16,7 @@ spec = do
         "0 1 2 3 4 + - -" `shouldSetStackTo` Right "[0, 6]"
         "2 3 ^ 6 - 10 * 3 / 17 13 %" `shouldSetStackTo` Right "[6, 4]"
 
+shouldSetStackTo :: String -> Either String String -> Expectation
 shouldSetStackTo x y = show' (evalString x) `shouldBe` y
                        where
                          show' (Left err) = Left err
