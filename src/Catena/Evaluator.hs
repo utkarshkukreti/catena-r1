@@ -41,7 +41,8 @@ builtins = Map.fromList [
   ]
 
   where
-    iii name f state@State{stack = y:x:xs} = case (x, y) of
-      (Integer x, Integer y) -> Right state { stack = (Integer $ f x y): xs}
-      _                      -> Left $ "Invalid stack for function \"" ++
+    iii name f state = case stack state of
+      (Integer y:Integer x:xs) -> Right state { stack = (Integer $ f x y): xs}
+      (y:x:xs)                 -> Left $ "Invalid stack for function \"" ++
                                        name ++ "\"!"
+      _                        -> Left $ "Stack must have atleast 2 values!"

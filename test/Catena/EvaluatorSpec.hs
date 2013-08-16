@@ -34,3 +34,5 @@ spec = do
             Left "Invalid stack for function \"+\"!"
           evalString "1 \"2\" *" `shouldBe`
             Left "Invalid stack for function \"*\"!"
+          evalString "+" `shouldBe` Left "Stack must have atleast 2 values!"
+          evalString "2 +" `shouldBe` Left "Stack must have atleast 2 values!"
