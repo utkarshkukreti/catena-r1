@@ -4,9 +4,9 @@ module Catena.Parser (
   parse1
 ) where
 
+import Control.Applicative (many, (<|>), (*>), (<*))
 import Data.Attoparsec.Text (Parser, char, decimal, many1, notChar, notInClass,
                              parseOnly, satisfy, signed, skipSpace)
-import Control.Applicative (many, (<|>), (*>), (<*))
 import Data.String (fromString)
 
 data Token = Integer Integer

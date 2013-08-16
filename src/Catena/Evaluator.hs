@@ -26,7 +26,6 @@ eval state (x:xs) = case eval1 state x of
                       Left message -> Left message
                       Right newState -> eval newState xs
 
-
 eval1 :: State -> Token -> Result
 eval1 state (Atom a) = case Map.lookup a builtins of
                          Just f -> f state
