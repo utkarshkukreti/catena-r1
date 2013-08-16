@@ -14,13 +14,6 @@ spec = do
       evalString "\"abc\" 1 [two]" `shouldBe`
         Right State { stack = [List [Atom "two"], Integer 1, String "abc"] }
 
-    it "evaluates arithmetic builtins" $ do
-      evalString "1 2 +" `shouldBe` Right State { stack = [Integer 3] }
-      evalString "0 1 2 3 4 + - -" `shouldBe`
-        Right State { stack = [Integer 6, Integer 0] }
-      evalString "2 3 ^ 6 - 10 * 3 /" `shouldBe`
-        Right State { stack = [Integer 6] }
-
     describe "evalString" $ do
       context "errors" $ do
         it "returns a Left on parse error" $ do
