@@ -5,6 +5,7 @@ module Catena.Stdlib(
 import Catena
 import Data.Map (Map)
 import qualified Data.Map as Map
+import Prelude hiding(head)
 
 stdlib :: Map String (State -> Either String State)
 stdlib = Map.fromList [
@@ -16,7 +17,14 @@ stdlib = Map.fromList [
   ]
 
 iii :: (Integer -> Integer -> Integer) -> State -> Either String State
-iii f state = case stack state of
-                (Integer y:Integer x:xs) -> Right state {
-                                              stack = (Integer $ f x y):xs }
-                _                        -> Left "Invalid Arguments"
+iii f state = onlyStack 2 state f'
+                where
+                  f' [Integer y, Integer x] = Just [Integer $ f x y]
+                  f' _                      = Nothing
+
+onlyStack :: Int -> State -> ([Token] -> Maybe [Token]) -> Either String State
+onlyStack count state f = case f head of
+                            Just xs -> Right state { stack = xs ++ rest }
+                            Nothing -> Left "Invalid Arguments"
+                          where
+                            (head, rest) = splitAt count $ stack state
