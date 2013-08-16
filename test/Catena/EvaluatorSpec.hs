@@ -28,3 +28,9 @@ spec = do
 
         it "returns a Left on invalid Atom access" $ do
           evalString "abc" `shouldBe` Left "Atom \"abc\" not found!"
+
+        it "returns a Left on invalid arguments to builtins" $ do
+          evalString "1 \"2\" +" `shouldBe`
+            Left "Invalid stack for function \"+\"!"
+          evalString "1 \"2\" *" `shouldBe`
+            Left "Invalid stack for function \"*\"!"
