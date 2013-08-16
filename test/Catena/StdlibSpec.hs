@@ -10,7 +10,7 @@ main = hspec spec
 spec :: Spec
 spec = do
   describe "Stdlib" $ do
-    describe "+ - * / ^" $ do
+    describe "+ - * / % ^" $ do
       it "evaluates them correctly" $ do
         "1 2 +" `shouldSetStackTo` Right "[3]"
         "0 1 2 3 4 + - -" `shouldSetStackTo` Right "[0, 6]"
