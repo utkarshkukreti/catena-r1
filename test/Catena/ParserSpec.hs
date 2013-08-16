@@ -9,7 +9,7 @@ main = hspec spec
 spec :: Spec
 spec = do
   describe "Parser" $ do
-    context "Literals" $ do
+    context "Integers" $ do
       it "parses positive integers" $ do
         parse "0" `shouldBe` Right (Integer 0)
         parse "14159" `shouldBe` Right (Integer 14159)
