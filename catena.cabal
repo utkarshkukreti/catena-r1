@@ -10,6 +10,7 @@ Library
   hs-source-dirs:      src
   build-depends:
       base == 4.*
+    , map
     , attoparsec
 
 test-suite spec
