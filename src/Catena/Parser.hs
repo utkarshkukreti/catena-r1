@@ -12,7 +12,7 @@ import Data.String (fromString)
 data Token = Integer Integer
            | String String
            | Atom String
-           | Block [Token]
+           | List [Token]
              deriving (Eq, Show)
 
 parse :: String -> Either String [Token]
@@ -22,7 +22,7 @@ parse1 :: String -> Either String Token
 parse1 = parseOnly root . fromString
 
 root :: Parser Token
-root = integer <|> string <|> atom <|> block
+root = integer <|> string <|> atom <|> list
 
 integer :: Parser Token
 integer = fmap Integer $ signed decimal
@@ -33,8 +33,8 @@ string = fmap String $ char '"' *> (many $ notChar '"') <* char '"'
 atom :: Parser Token
 atom = fmap Atom $ many1 $ satisfy $ notInClass " \t\n\r[]"
 
-block :: Parser Token
-block = fmap Block $ open *> inside <* close
+list :: Parser Token
+list = fmap List $ open *> inside <* close
   where
     open = char '[' >> skipSpace
     inside = many $ root <* skipSpace

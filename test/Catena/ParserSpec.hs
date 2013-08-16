@@ -30,22 +30,22 @@ spec = do
         parse1 "++--" `shouldBe` Right (Atom "++--")
         parse1 "add!!?" `shouldBe` Right (Atom "add!!?")
 
-    context "Blocks" $ do
-      it "parses empty blocks" $ do
-        parse1 "[]" `shouldBe` Right (Block [])
-        parse1 "[  ]" `shouldBe` Right (Block [])
+    context "Lists" $ do
+      it "parses empty lists" $ do
+        parse1 "[]" `shouldBe` Right (List [])
+        parse1 "[  ]" `shouldBe` Right (List [])
 
-      it "parses non-empty blocks" $ do
-        parse1 "[1 2]" `shouldBe` Right (Block [Integer 1, Integer 2])
-        parse1 "[ 1  2  ]" `shouldBe` Right (Block [Integer 1, Integer 2])
+      it "parses non-empty lists" $ do
+        parse1 "[1 2]" `shouldBe` Right (List [Integer 1, Integer 2])
+        parse1 "[ 1  2  ]" `shouldBe` Right (List [Integer 1, Integer 2])
 
-      it "parses recursive blocks" $ do
+      it "parses recursive lists" $ do
         parse1 "[1 [[2]] [\"abc\"]]" `shouldBe`
-          Right (Block [Integer 1,
-                        Block [Block [Integer 2]],
-                        Block [String "abc"]])
+          Right (List [Integer 1,
+                        List [List [Integer 2]],
+                        List [String "abc"]])
 
     context "Root" $ do
       it "parses multiple expressions delimited by whitespace" $ do
         parse "1 2 + [!] ^_^" `shouldBe`
-          Right [Integer 1, Integer 2, Atom "+", Block [Atom "!"], Atom "^_^"]
+          Right [Integer 1, Integer 2, Atom "+", List [Atom "!"], Atom "^_^"]
