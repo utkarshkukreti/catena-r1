@@ -17,7 +17,8 @@ stdlib = Map.fromList [
     ("^", iii (^)),
     ("++", lll (++)),
     ("pop", pop),
-    ("dup", dup)
+    ("dup", dup),
+    ("swap", swap)
   ]
 
 iii :: (Integer -> Integer -> Integer) -> State -> Either String State
@@ -43,6 +44,12 @@ dup state = onlyStack 1 state f'
             where
               f' [x] = Just [x, x]
               f' _   = Nothing
+
+swap :: State -> Either String State
+swap state = onlyStack 2 state f'
+             where
+               f' [y, x] = Just [x, y]
+               f' _      = Nothing
 
 onlyStack :: Int -> State -> ([Token] -> Maybe [Token]) -> Either String State
 onlyStack i state f = case f head of

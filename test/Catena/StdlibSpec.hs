@@ -34,6 +34,10 @@ spec = do
         "1 2 [+] apply" `shouldSetStackTo` Right "[3]"
         "1 1 [dup + dup [+] apply] apply" `shouldSetStackTo` Right "[1, 4]"
 
+    describe "swap" $ do
+      it "swaps the two elements on the top of the stack" $ do
+        "1 4 7 swap - swap -" `shouldSetStackTo` Right "[2]"
+
 shouldSetStackTo :: String -> Either String String -> Expectation
 shouldSetStackTo x y = show' (evalString x) `shouldBe` y
                        where
