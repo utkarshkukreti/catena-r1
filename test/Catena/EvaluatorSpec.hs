@@ -30,9 +30,7 @@ spec = do
           evalString "abc" `shouldBe` Left "Atom \"abc\" not found!"
 
         it "returns a Left on invalid arguments to builtins" $ do
-          evalString "1 \"2\" +" `shouldBe`
-            Left "Invalid stack for function \"+\"!"
-          evalString "1 \"2\" *" `shouldBe`
-            Left "Invalid stack for function \"*\"!"
-          evalString "+" `shouldBe` Left "Stack must have atleast 2 values!"
-          evalString "2 +" `shouldBe` Left "Stack must have atleast 2 values!"
+          evalString "1 \"2\" +" `shouldBe` Left "Invalid Arguments"
+          evalString "1 \"2\" *" `shouldBe` Left "Invalid Arguments"
+          evalString "+" `shouldBe` Left "Invalid Arguments"
+          evalString "2 +" `shouldBe` Left "Invalid Arguments"
