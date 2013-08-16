@@ -24,6 +24,12 @@ spec = do
         parse "\"hello\"" `shouldBe` Right (String "hello")
         parse "\" world ! \"" `shouldBe` Right (String " world ! ")
 
+    context "Atoms" $ do
+      it "parses everything except square brackets and whitespace" $ do
+        parse "+" `shouldBe` Right (Atom "+")
+        parse "++--" `shouldBe` Right (Atom "++--")
+        parse "add!!?" `shouldBe` Right (Atom "add!!?")
+
     context "Blocks" $ do
       it "parses empty blocks" $ do
         parse "[]" `shouldBe` Right (Block [])
