@@ -19,14 +19,10 @@ evalString s = case parse s of
                  Right ts -> Right $ foldl eval1 defaultState ts
 
 eval1 :: State -> Token -> State
-eval1 state token = case token of
-                      String _ -> state { stack = token:(stack state) }
-                      Integer _ -> state { stack = token:(stack state) }
-                      Block _ -> state { stack = token:(stack state) }
-                      Atom a -> case Map.lookup a builtins of
-                                  Just f -> f state
-                                  Nothing -> error $
-                                               "Atom \"" ++ a ++ "\" not found!"
+eval1 state (Atom a) = case Map.lookup a builtins of
+                         Just f -> f state
+                         Nothing -> error $ "Atom \"" ++ a ++ "\" not found!"
+eval1 state token = state { stack = token:(stack state) }
 
 builtins :: Map String (State -> State)
 builtins = Map.fromList [
