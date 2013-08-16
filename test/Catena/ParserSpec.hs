@@ -11,15 +11,15 @@ spec = do
   describe "Parser" $ do
     context "Literals" $ do
       it "parses positive integers" $ do
-        parse "0" `shouldBe` Right (IntegerT 0)
-        parse "14159" `shouldBe` Right (IntegerT 14159)
+        parse "0" `shouldBe` Right (Integer 0)
+        parse "14159" `shouldBe` Right (Integer 14159)
 
       it "parses negative integers" $ do
-        parse "-0" `shouldBe` Right (IntegerT 0)
-        parse "-26535" `shouldBe` Right (IntegerT $ -26535)
+        parse "-0" `shouldBe` Right (Integer 0)
+        parse "-26535" `shouldBe` Right (Integer $ -26535)
 
     context "Strings" $ do
       it "parses simple strings" $ do
-        parse "\"\"" `shouldBe` Right (StringT "")
-        parse "\"hello\"" `shouldBe` Right (StringT "hello")
-        parse "\" world ! \"" `shouldBe` Right (StringT " world ! ")
+        parse "\"\"" `shouldBe` Right (String "")
+        parse "\"hello\"" `shouldBe` Right (String "hello")
+        parse "\" world ! \"" `shouldBe` Right (String " world ! ")

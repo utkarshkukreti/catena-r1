@@ -7,8 +7,8 @@ import Data.Attoparsec.Text (Parser, char, decimal, notChar, parseOnly, signed)
 import Control.Applicative (many, (<|>))
 import Data.String (fromString)
 
-data Token = IntegerT Integer
-           | StringT String
+data Token = Integer Integer
+           | String String
              deriving (Eq, Show)
 
 parse :: String -> Either String Token
@@ -18,11 +18,11 @@ root :: Parser Token
 root = integer <|> string
 
 integer :: Parser Token
-integer = fmap IntegerT $ signed decimal
+integer = fmap Integer $ signed decimal
 
 string :: Parser Token
 string = do
   _ <- char '"'
   s <- many $ notChar '"'
   _ <- char '"'
-  return $ StringT s
+  return $ String s
