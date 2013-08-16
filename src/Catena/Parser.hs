@@ -1,6 +1,7 @@
 module Catena.Parser (
   Token(..),
-  parse
+  parse,
+  parse1
 ) where
 
 import Data.Attoparsec.Text (Parser, char, decimal, many1, notChar, notInClass,
@@ -14,8 +15,11 @@ data Token = Integer Integer
            | Block [Token]
              deriving (Eq, Show)
 
-parse :: String -> Either String Token
-parse = parseOnly root . fromString
+parse :: String -> Either String [Token]
+parse = parseOnly (many1 (root <* skipSpace)) . fromString
+
+parse1 :: String -> Either String Token
+parse1 = parseOnly root . fromString
 
 root :: Parser Token
 root = integer <|> string <|> atom <|> block
