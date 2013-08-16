@@ -33,17 +33,19 @@ eval1 state (Atom a) = case Map.lookup a builtins of
 eval1 state token = Right state { stack = token:(stack state) }
 
 builtins :: Map String (State -> Result)
-builtins = Map.fromList [
-    ("+", iii "+" (+)),
-    ("-", iii "-" (-)),
-    ("*", iii "*" (*)),
-    ("/", iii "/" div),
-    ("^", iii "^" (^))
+builtins = Map.fromList $ map iii [
+    ("+", (+)),
+    ("-", (-)),
+    ("*", (*)),
+    ("/", div),
+    ("^", (^))
   ]
-
   where
-    iii name f state = case stack state of
-      (Integer y:Integer x:xs) -> Right state { stack = (Integer $ f x y): xs}
-      (_:_:_)                  -> Left $ "Invalid stack for function \"" ++
-                                       name ++ "\"!"
-      _                        -> Left $ "Stack must have atleast 2 values!"
+    iii (name, f) = (name, f')
+      where
+        f' state = case stack state of
+          (Integer y:Integer x:xs) -> Right state { stack =
+                                                      (Integer $ f x y):xs }
+          (_:_:_)                  -> Left $ "Invalid stack for function \"" ++
+                                           name ++ "\"!"
+          _                        -> Left $ "Stack must have atleast 2 values!"
