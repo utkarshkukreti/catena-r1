@@ -23,3 +23,18 @@ spec = do
         parse "\"\"" `shouldBe` Right (String "")
         parse "\"hello\"" `shouldBe` Right (String "hello")
         parse "\" world ! \"" `shouldBe` Right (String " world ! ")
+
+    context "Blocks" $ do
+      it "parses empty blocks" $ do
+        parse "[]" `shouldBe` Right (Block [])
+        parse "[  ]" `shouldBe` Right (Block [])
+
+      it "parses non-empty blocks" $ do
+        parse "[1 2]" `shouldBe` Right (Block [Integer 1, Integer 2])
+        parse "[1     2      ]" `shouldBe` Right (Block [Integer 1, Integer 2])
+
+      it "parses recursive blocks" $ do
+        parse "[1 [[2]] [\"abc\"]]" `shouldBe`
+          Right (Block [Integer 1,
+                        Block [Block [Integer 2]],
+                        Block [String "abc"]])
