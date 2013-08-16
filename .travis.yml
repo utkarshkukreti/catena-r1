@@ -1,0 +1,2 @@
+script:
+  - cabal configure --enable-tests && cabal build && cabal test --test-options=--color --show-details=always
