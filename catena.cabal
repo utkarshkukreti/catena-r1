@@ -10,7 +10,7 @@ Library
   hs-source-dirs:      src
   build-depends:
       base == 4.*
-    , map
+    , containers
     , attoparsec
 
 test-suite spec
@@ -20,4 +20,6 @@ test-suite spec
   hs-source-dirs:      src, test
   build-depends:
       base == 4.*
+    , containers
+    , attoparsec
     , hspec >= 1.3
