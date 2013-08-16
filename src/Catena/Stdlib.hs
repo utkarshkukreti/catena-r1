@@ -35,7 +35,7 @@ lll f state = onlyStack 2 state f'
 pop :: State -> Either String State
 pop state = onlyStack 1 state f'
             where
-              f' [x] = Just []
+              f' [_] = Just []
               f' _   = Nothing
 
 dup :: State -> Either String State
