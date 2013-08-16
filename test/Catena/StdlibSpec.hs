@@ -1,8 +1,8 @@
 module Catena.StdlibSpec (main, spec) where
 
 import Test.Hspec
+import Catena
 import Catena.Evaluator
-import Catena.Parser (Token(..))
 
 main :: IO ()
 main = hspec spec
@@ -12,8 +12,11 @@ spec = do
   describe "Stdlib" $ do
     describe "+ - * / ^" $ do
       it "evaluates them correctly" $ do
-        evalString "1 2 +" `shouldBe` Right State { stack = [Integer 3] }
-        evalString "0 1 2 3 4 + - -" `shouldBe`
-          Right State { stack = [Integer 6, Integer 0] }
-        evalString "2 3 ^ 6 - 10 * 3 / 17 13 %" `shouldBe`
-          Right State { stack = [Integer 4, Integer 6] }
+        "1 2 +" `shouldSetStackTo` Right "[3]"
+        "0 1 2 3 4 + - -" `shouldSetStackTo` Right "[0, 6]"
+        "2 3 ^ 6 - 10 * 3 / 17 13 %" `shouldSetStackTo` Right "[6, 4]"
+
+shouldSetStackTo x y = show' (evalString x) `shouldBe` y
+                       where
+                         show' (Left err) = Left err
+                         show' (Right state) = Right $ show $ stack state

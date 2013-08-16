@@ -24,8 +24,9 @@ iii f state = onlyStack 2 state f'
                   f' _                      = Nothing
 
 onlyStack :: Int -> State -> ([Token] -> Maybe [Token]) -> Either String State
-onlyStack count state f = case f head of
-                            Just xs -> Right state { stack = xs ++ rest }
-                            Nothing -> Left "Invalid Arguments"
-                          where
-                            (head, rest) = splitAt count $ stack state
+onlyStack i state f = case f head of
+                        Just xs -> Right state { stack = Stack (xs ++ rest) }
+                        Nothing -> Left "Invalid Arguments"
+                      where
+                        (head, rest) = splitAt i xs
+                          where Stack xs = stack state

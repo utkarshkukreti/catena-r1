@@ -1,8 +1,8 @@
 module Catena.EvaluatorSpec (main, spec) where
 
 import Test.Hspec
+import Catena
 import Catena.Evaluator
-import Catena.Parser (Token(..))
 
 main :: IO ()
 main = hspec spec
@@ -11,8 +11,8 @@ spec :: Spec
 spec = do
   describe "Evaluator" $ do
     it "pushes Strings, Integers, and Lists to the stack" $ do
-      evalString "\"abc\" 1 [two]" `shouldBe`
-        Right State { stack = [List [Atom "two"], Integer 1, String "abc"] }
+      evalString "\"b@\" 1 [a!]" `shouldBe`
+        Right State { stack = Stack [List [Atom "a!"], Integer 1, String "b@"] }
 
     describe "evalString" $ do
       context "errors" $ do

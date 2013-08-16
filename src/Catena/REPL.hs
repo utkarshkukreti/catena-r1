@@ -4,20 +4,10 @@ module Catena.REPL (
 
 import Catena.Evaluator
 import Catena.Parser
-import Data.List (intercalate)
 import System.IO (hFlush, stdout)
 
-showToken :: Token -> String
-showToken (Integer x) = show x
-showToken (String x) = show x
-showToken (Atom x) = x
-showToken (List xs) = "[" ++ (intercalate ", " (map showToken xs)) ++ "]"
-
-showStack :: [Token] -> String
-showStack xs = showToken $ List $ reverse xs
-
 showState :: State -> String
-showState state = "stack: " ++ (showStack $ stack state)
+showState state = "stack: " ++ (show $ stack state)
 
 repl :: State -> IO ()
 repl state = do

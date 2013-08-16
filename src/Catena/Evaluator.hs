@@ -12,7 +12,7 @@ import Catena.Stdlib
 import qualified Data.Map as Map
 
 defaultState :: State
-defaultState = State { stack = [] }
+defaultState = State { stack = Stack [] }
 
 evalString :: String -> Either String State
 evalString s = case parse s of
@@ -30,4 +30,6 @@ eval1 state (Atom name) = case Map.lookup name stdlib of
                             Just f -> f state
                             Nothing -> Left $
                                          "Atom \"" ++ name ++ "\" not found!"
-eval1 state token = Right state { stack = token:(stack state) }
+eval1 state token = Right state { stack = Stack (token:xs) }
+                    where
+                      Stack xs = stack state
