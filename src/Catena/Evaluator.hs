@@ -15,14 +15,21 @@ defaultState = State { stack = [] }
 
 evalString :: String -> Either String State
 evalString s = case parse s of
-                 Left message -> Left $ "Parse Error: " ++ message
-                 Right ts -> Right $ foldl eval1 defaultState ts
+                 Left message -> Left $ "Parse Error: " ++ message ++ "!"
+                 Right ts -> eval defaultState ts
 
-eval1 :: State -> Token -> State
+eval :: State -> [Token] -> Either String State
+eval state [] = Right state
+eval state (x:xs) = case eval1 state x of
+                      Left message -> Left message
+                      Right newState -> eval newState xs
+
+
+eval1 :: State -> Token -> Either String State
 eval1 state (Atom a) = case Map.lookup a builtins of
-                         Just f -> f state
-                         Nothing -> error $ "Atom \"" ++ a ++ "\" not found!"
-eval1 state token = state { stack = token:(stack state) }
+                         Just f -> Right $ f state
+                         Nothing -> Left $ "Atom \"" ++ a ++ "\" not found!"
+eval1 state token = Right state { stack = token:(stack state) }
 
 builtins :: Map String (State -> State)
 builtins = Map.fromList [

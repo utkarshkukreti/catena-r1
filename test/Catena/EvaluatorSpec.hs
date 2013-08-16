@@ -20,3 +20,11 @@ spec = do
         Right State { stack = [Integer 6, Integer 0] }
       evalString "2 3 ^ 6 - 10 * 3 /" `shouldBe`
         Right State { stack = [Integer 6] }
+
+    describe "evalString" $ do
+      context "errors" $ do
+        it "returns a Left on parse error" $ do
+          evalString "[" `shouldBe` Left "Parse Error: not enough input!"
+
+        it "returns a Left on invalid Atom access" $ do
+          evalString "abc" `shouldBe` Left "Atom \"abc\" not found!"
