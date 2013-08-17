@@ -13,6 +13,15 @@ Library
     , containers
     , attoparsec >= 0.10.4.0
 
+Executable catena
+  ghc-options:         -Wall
+  hs-source-dirs:      src
+  main-is:             Catena/REPL.hs
+  build-depends:
+      base == 4.*
+    , containers
+    , attoparsec >= 0.10.4.0
+
 test-suite spec
   ghc-options:         -Wall
   type:                exitcode-stdio-1.0

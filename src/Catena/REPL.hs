@@ -1,4 +1,4 @@
-module Catena.REPL (
+module Main (
   main
 ) where
 
