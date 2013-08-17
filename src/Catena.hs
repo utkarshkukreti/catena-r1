@@ -25,4 +25,4 @@ instance Show (Token) where
   show (List xs) = "[" ++ (intercalate ", " (map show xs)) ++ "]"
 
 instance Show (Stack) where
-  show (Stack xs) = "[" ++ (intercalate ", " (map show $ reverse xs)) ++ "]"
+  show (Stack xs) = show $ List $ reverse xs
