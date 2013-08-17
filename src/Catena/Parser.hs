@@ -31,6 +31,6 @@ atom = fmap Atom $ many1 $ satisfy $ notInClass " \t\n\r[]"
 list :: Parser Token
 list = fmap List $ open *> inside <* close
   where
-    open = char '[' >> skipSpace
+    open   = char '[' >> skipSpace
     inside = many $ root <* skipSpace
-    close = char ']'
+    close  = char ']'
