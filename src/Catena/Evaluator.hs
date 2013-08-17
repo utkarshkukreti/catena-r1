@@ -28,7 +28,7 @@ eval state (x:xs) = case eval1 state x of
 eval1 :: State -> Token -> EvalResult
 eval1 state (Atom "apply") = eval (state { stack = Stack xs }) x
                                where
-                                 Stack ((List x):xs) = stack state
+                                 Stack (List x:xs) = stack state
 eval1 state (Atom name)    = case Map.lookup name stdlib of
                                Just f -> f state
                                Nothing -> Left $ NotFoundError name

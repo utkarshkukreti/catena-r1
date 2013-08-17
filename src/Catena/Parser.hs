@@ -23,7 +23,7 @@ integer :: Parser Token
 integer = fmap Integer $ signed decimal
 
 string :: Parser Token
-string = fmap String $ char '"' *> (many $ notChar '"') <* char '"'
+string = fmap String $ char '"' *> many (notChar '"') <* char '"'
 
 atom :: Parser Token
 atom = fmap Atom $ many1 $ satisfy $ notInClass " \t\n\r[]"

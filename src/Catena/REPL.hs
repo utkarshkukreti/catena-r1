@@ -8,7 +8,7 @@ import Catena.Parser
 import System.IO (hFlush, stdout)
 
 showState :: State -> String
-showState state = "stack: " ++ (show $ stack state)
+showState state = "stack: " ++ show (stack state)
 
 r :: IO String
 r = putStr "> " >> hFlush stdout >> getLine
@@ -20,7 +20,7 @@ e state line = case parse line of
 
 p :: State -> EvalResult -> IO State
 p oldState (Left err) = print err >> return oldState
-p _ (Right newState)  = (putStrLn $ showState newState) >> return newState
+p _ (Right newState)  = putStrLn (showState newState) >> return newState
 
 l :: State -> IO ()
 l state = do
@@ -28,7 +28,7 @@ l state = do
   case line of
     ""     -> l state
     "exit" -> return ()
-    _      -> (return $ e state line) >>= p state >>= l
+    _      -> return (e state line) >>= p state >>= l
 
 repl :: IO ()
 repl = l defaultState
