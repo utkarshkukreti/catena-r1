@@ -1,7 +1,9 @@
 module Catena (
   Token(..),
   Stack(..),
-  State(..)
+  State(..),
+  EvalError(..),
+  EvalResult
 ) where
 
 import Data.List (intercalate)
@@ -17,6 +19,13 @@ data Stack = Stack [Token]
 
 data State = State { stack :: Stack }
              deriving (Eq, Show)
+
+data EvalError = NotFoundError String
+               | ParseError String
+               | ArgumentError
+                 deriving (Eq, Show)
+
+type EvalResult = Either EvalError State
 
 instance Show (Token) where
   show (Integer x) = show x
