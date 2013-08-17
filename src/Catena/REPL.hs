@@ -2,6 +2,7 @@ module Catena.REPL (
   main
 ) where
 
+import Catena
 import Catena.Evaluator
 import Catena.Parser
 import System.IO (hFlush, stdout)
@@ -9,20 +10,28 @@ import System.IO (hFlush, stdout)
 showState :: State -> String
 showState state = "stack: " ++ (show $ stack state)
 
-repl :: State -> IO ()
-repl state = do
-  putStrLn $ showState state
-  putStr "> "
-  hFlush stdout
-  line <- getLine
+r :: IO String
+r = putStr "> " >> hFlush stdout >> getLine
+
+e :: State -> String -> EvalResult
+e state line = case parse line of
+  Left err     -> Left $ ParseError err
+  Right tokens -> eval state tokens
+
+p :: State -> EvalResult -> IO State
+p oldState (Left err) = print err >> return oldState
+p _ (Right newState)  = (putStrLn $ showState newState) >> return newState
+
+l :: State -> IO ()
+l state = do
+  line <- r
   case line of
-    ""     -> repl state
+    ""     -> l state
     "exit" -> return ()
-    _      -> case parse line of
-      Left err -> print err >> repl state
-      Right tokens -> case eval state tokens of
-        Left err -> print err >> repl state
-        Right newState -> repl newState
+    _      -> (return $ e state line) >>= p state >>= l
+
+repl :: IO ()
+repl = l defaultState
 
 main :: IO ()
-main = repl defaultState
+main = repl
