@@ -19,9 +19,9 @@ repl state = do
     ""     -> repl state
     "exit" -> return ()
     _      -> case parse line of
-      Left err -> (putStrLn $ "Parse Error: " ++ err) >> repl state
+      Left err -> print err >> repl state
       Right tokens -> case eval state tokens of
-        Left err -> putStrLn err >> repl state
+        Left err -> print err >> repl state
         Right newState -> repl newState
 
 main :: IO ()
