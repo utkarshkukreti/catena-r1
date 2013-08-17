@@ -16,13 +16,13 @@ defaultState = State { stack = Stack [] }
 
 evalString :: String -> Either String State
 evalString s = case parse s of
-                 Left message -> Left $ "Parse Error: " ++ message ++ "!"
-                 Right ts -> eval defaultState ts
+                 Left err -> Left $ "Parse Error: " ++ err ++ "!"
+                 Right tokens -> eval defaultState tokens
 
 eval :: State -> [Token] -> Either String State
 eval state [] = Right state
 eval state (x:xs) = case eval1 state x of
-                      Left message -> Left message
+                      Left err -> Left err
                       Right newState -> eval newState xs
 
 eval1 :: State -> Token -> Either String State
