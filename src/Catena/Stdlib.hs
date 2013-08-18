@@ -35,22 +35,13 @@ lll f state = onlyStack 2 state f'
                   f' _                = Nothing
 
 pop :: State -> EvalResult
-pop state = onlyStack 1 state f'
-            where
-              f' [_] = Just []
-              f' _   = Nothing
+pop state = onlyStack 1 state $ \[_] -> Just []
 
 dup :: State -> EvalResult
-dup state = onlyStack 1 state f'
-            where
-              f' [x] = Just [x, x]
-              f' _   = Nothing
+dup state = onlyStack 1 state $ \[x] -> Just [x, x]
 
 swap :: State -> EvalResult
-swap state = onlyStack 2 state f'
-             where
-               f' [y, x] = Just [x, y]
-               f' _      = Nothing
+swap state = onlyStack 2 state $ \[y, x] -> Just [x, y]
 
 apply :: State -> EvalResult
 apply state@State{queue = _queue, stack = _stack} = case take 1 _stack of
