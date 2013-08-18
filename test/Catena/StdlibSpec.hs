@@ -62,7 +62,7 @@ spec = do
         "swap" `shouldEvaluateTo` Left (NotEnoughArgumentsError 2 0)
         "1 swap" `shouldEvaluateTo` Left (NotEnoughArgumentsError 2 1)
 
-shouldEvaluateTo :: String -> Either EvalError String -> Expectation
+shouldEvaluateTo :: String -> Either Error String -> Expectation
 shouldEvaluateTo x y = show' (evalString x) `shouldBe` y
                        where
                          show' (Left err) = Left err

@@ -13,12 +13,12 @@ showState state = "stack: " ++ showStack (stack state)
 r :: IO String
 r = putStr "> " >> hFlush stdout >> getLine
 
-e :: State -> String -> EvalResult
+e :: State -> String -> Result
 e state line = case parse line of
   Left err     -> Left $ ParseError err
   Right tokens -> eval state { queue = tokens }
 
-p :: State -> EvalResult -> IO State
+p :: State -> Result -> IO State
 p oldState (Left err) = print err >> return oldState
 p _ (Right newState)  = putStrLn (showState newState) >> return newState
 

@@ -1,8 +1,8 @@
 module Catena (
   Token(..),
   State(..),
-  EvalError(..),
-  EvalResult,
+  Error(..),
+  Result,
   showStack,
   showQueue
 ) where
@@ -18,13 +18,13 @@ data Token = Integer Integer
 data State = State { stack :: [Token], queue :: [Token] }
              deriving (Eq, Show)
 
-data EvalError = NotFoundError String
-               | ParseError String
-               | ArgumentError
-               | NotEnoughArgumentsError Int Int
-                 deriving (Eq, Show)
+data Error = NotFoundError String
+           | ParseError String
+           | ArgumentError
+           | NotEnoughArgumentsError Int Int
+             deriving (Eq, Show)
 
-type EvalResult = Either EvalError State
+type Result = Either Error State
 
 instance Show (Token) where
   show (Integer x) = show x
