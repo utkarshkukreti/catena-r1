@@ -10,7 +10,6 @@ import Catena
 import Catena.Parser
 import Catena.Stdlib
 import qualified Data.Map as Map
-import Prelude hiding (head, tail)
 
 defaultState :: State
 defaultState = State { stack = [], queue = [] }
@@ -28,8 +27,8 @@ eval state = case eval1 state of
 
 eval1 :: State -> EvalResult
 eval1 state@State{queue = []} = Right state
-eval1 state@State{queue = (head:tail), stack = _stack} = case head of
+eval1 state@State{queue = (q:qs), stack = _stack} = case q of
   Atom name    -> case Map.lookup name stdlib of
-                    Just f  -> f state { queue = tail }
+                    Just f  -> f state { queue = qs }
                     Nothing -> Left $ NotFoundError name
-  _            -> Right $ state { queue = tail, stack = head:_stack }
+  _            -> Right $ state { queue = qs, stack = q:_stack }

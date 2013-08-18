@@ -5,7 +5,6 @@ module Catena.Stdlib(
 import Catena
 import Data.Map (Map)
 import qualified Data.Map as Map
-import Prelude hiding(head)
 
 stdlib :: Map String (State -> EvalResult)
 stdlib = Map.fromList [
@@ -52,8 +51,8 @@ apply state@State{queue = _queue, stack = _stack} = case take 1 _stack of
 onlyStack :: Int -> ([Token] -> Maybe [Token]) -> State -> EvalResult
 onlyStack i f state@State{stack = _stack}
   | length _stack < i = Left $ NotEnoughArgumentsError i $ length _stack
-  | otherwise         = case f head of
-                          Just xs -> Right state { stack = xs ++ rest }
+  | otherwise         = case f left of
+                          Just xs -> Right state { stack = xs ++ right }
                           Nothing -> Left ArgumentError
                         where
-                          (head, rest) = splitAt i _stack
+                          (left, right) = splitAt i _stack
