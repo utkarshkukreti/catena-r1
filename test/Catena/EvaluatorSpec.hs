@@ -12,7 +12,8 @@ spec = do
   describe "Evaluator" $ do
     it "pushes Strings, Integers, and Lists to the stack" $ do
       evalString "\"b@\" 1 [a!]" `shouldBe`
-        Right State { stack = [List [Atom "a!"], Integer 1, String "b@"], queue = []}
+        Right State { stack = [List [Atom "a!"], Integer 1, String "b@"]
+                    , queue = [] }
 
     describe "evalString" $ do
       context "errors" $ do
