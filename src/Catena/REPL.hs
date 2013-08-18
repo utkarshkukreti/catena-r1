@@ -8,7 +8,7 @@ import Catena.Parser
 import System.IO (hFlush, stdout)
 
 showState :: State -> String
-showState state = "stack: " ++ show (stack state)
+showState state = "stack: " ++ showStack (stack state)
 
 r :: IO String
 r = putStr "> " >> hFlush stdout >> getLine
