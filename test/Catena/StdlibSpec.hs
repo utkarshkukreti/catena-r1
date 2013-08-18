@@ -49,7 +49,6 @@ spec = do
         "1 2 [+] apply" `shouldEvaluateTo` Right "[3]"
         "1 1 [dup + dup [+] apply] apply" `shouldEvaluateTo` Right "[1, 4]"
 
-      -- Doesn't pass yet; Need to think of a clean solution for this.
       it "otherwise returns ArgumentError" $ do
         "apply" `shouldEvaluateTo` Left ArgumentError
         "1 apply" `shouldEvaluateTo` Left ArgumentError
