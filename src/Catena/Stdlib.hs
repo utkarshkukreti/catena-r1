@@ -55,11 +55,14 @@ swap state = onlyStack 2 state f'
 apply :: State -> EvalResult
 apply state@State{queue = _queue, stack = _stack} = case take 1 _stack of
                [List x] -> Right state { queue = x ++ _queue, stack = drop 1 _stack }
-               _        -> Left ArgumentError
+               [_]      -> Left ArgumentError
+               []       -> Left $ NotEnoughArgumentsError 1 0
 
 onlyStack :: Int -> State -> ([Token] -> Maybe [Token]) -> EvalResult
-onlyStack i state@State{stack = _stack} f = case f head of
-                        Just xs -> Right state { stack = xs ++ rest }
-                        Nothing -> Left ArgumentError
-                      where
-                        (head, rest) = splitAt i _stack
+onlyStack i state@State{stack = _stack} f
+  | length _stack < i = Left $ NotEnoughArgumentsError i $ length _stack
+  | otherwise         = case f head of
+                          Just xs -> Right state { stack = xs ++ rest }
+                          Nothing -> Left ArgumentError
+                        where
+                          (head, rest) = splitAt i _stack

@@ -21,6 +21,7 @@ data State = State { stack :: [Token], queue :: [Token] }
 data EvalError = NotFoundError String
                | ParseError String
                | ArgumentError
+               | NotEnoughArgumentsError Int Int
                  deriving (Eq, Show)
 
 type EvalResult = Either EvalError State
