@@ -27,6 +27,7 @@ eval state = case eval1 state of
                Right newState -> eval newState
 
 eval1 :: State -> EvalResult
+eval1 state@State{queue = []} = Right state
 eval1 state@State{queue = (head:tail), stack = _stack} = case head of
   Atom name    -> case Map.lookup name stdlib of
                     Just f  -> f state { queue = tail }
