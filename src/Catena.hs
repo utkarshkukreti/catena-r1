@@ -1,9 +1,10 @@
 module Catena (
   Token(..),
-  Stack(..),
   State(..),
   EvalError(..),
-  EvalResult
+  EvalResult,
+  showStack,
+  showQueue
 ) where
 
 import Data.List (intercalate)
@@ -14,10 +15,7 @@ data Token = Integer Integer
            | List [Token]
              deriving (Eq)
 
-data Stack = Stack [Token]
-             deriving (Eq)
-
-data State = State { stack :: Stack }
+data State = State { stack :: [Token], queue :: [Token] }
              deriving (Eq, Show)
 
 data EvalError = NotFoundError String
@@ -33,5 +31,8 @@ instance Show (Token) where
   show (Atom x)    = x
   show (List xs)   = "[" ++ intercalate ", " (map show xs) ++ "]"
 
-instance Show (Stack) where
-  show (Stack xs) = show $ List $ reverse xs
+showStack :: [Token] -> String
+showStack = show . List . reverse
+
+showQueue :: [Token] -> String
+showQueue = showStack

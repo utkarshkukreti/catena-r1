@@ -18,7 +18,8 @@ stdlib = Map.fromList [
     ("++", lll (++)),
     ("pop", pop),
     ("dup", dup),
-    ("swap", swap)
+    ("swap", swap),
+    ("apply", apply)
   ]
 
 iii :: (Integer -> Integer -> Integer) -> State -> EvalResult
@@ -51,10 +52,14 @@ swap state = onlyStack 2 state f'
                f' [y, x] = Just [x, y]
                f' _      = Nothing
 
+apply :: State -> EvalResult
+apply state@State{queue = _queue, stack = _stack} = case take 1 _stack of
+               [List x] -> Right state { queue = x ++ _queue, stack = drop 1 _stack }
+               _        -> Left ArgumentError
+
 onlyStack :: Int -> State -> ([Token] -> Maybe [Token]) -> EvalResult
-onlyStack i state f = case f head of
-                        Just xs -> Right state { stack = Stack (xs ++ rest) }
+onlyStack i state@State{stack = _stack} f = case f head of
+                        Just xs -> Right state { stack = xs ++ rest }
                         Nothing -> Left ArgumentError
                       where
-                        (head, rest) = splitAt i xs
-                          where Stack xs = stack state
+                        (head, rest) = splitAt i _stack

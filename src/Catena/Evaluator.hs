@@ -10,28 +10,25 @@ import Catena
 import Catena.Parser
 import Catena.Stdlib
 import qualified Data.Map as Map
+import Prelude hiding (head, tail)
 
 defaultState :: State
-defaultState = State { stack = Stack [] }
+defaultState = State { stack = [], queue = [] }
 
 evalString :: String -> EvalResult
 evalString s = case parse s of
                  Left err     -> Left $ ParseError err
-                 Right tokens -> eval defaultState tokens
+                 Right tokens -> eval defaultState { queue = tokens }
 
-eval :: State -> [Token] -> EvalResult
-eval state []     = Right state
-eval state (x:xs) = case eval1 state x of
-                      Left err       -> Left err
-                      Right newState -> eval newState xs
+eval :: State -> EvalResult
+eval state@State {queue = []} = Right state
+eval state = case eval1 state of
+               Left err       -> Left err
+               Right newState -> eval newState
 
-eval1 :: State -> Token -> EvalResult
-eval1 state (Atom "apply") = eval (state { stack = Stack xs }) x
-                               where
-                                 Stack (List x:xs) = stack state
-eval1 state (Atom name)    = case Map.lookup name stdlib of
-                               Just f -> f state
-                               Nothing -> Left $ NotFoundError name
-eval1 state token          = Right state { stack = Stack (token:xs) }
-                               where
-                                 Stack xs = stack state
+eval1 :: State -> EvalResult
+eval1 state@State{queue = (head:tail), stack = _stack} = case head of
+  Atom name    -> case Map.lookup name stdlib of
+                    Just f  -> f state { queue = tail }
+                    Nothing -> Left $ NotFoundError name
+  _            -> Right $ state { queue = tail, stack = head:_stack }

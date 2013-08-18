@@ -50,9 +50,9 @@ spec = do
         "1 1 [dup + dup [+] apply] apply" `shouldEvaluateTo` Right "[1, 4]"
 
       -- Doesn't pass yet; Need to think of a clean solution for this.
-      -- it "otherwise returns ArgumentError" $ do
-      --   "apply" `shouldEvaluateTo` Left ArgumentError
-      --   "1 apply" `shouldEvaluateTo` Left ArgumentError
+      it "otherwise returns ArgumentError" $ do
+        "apply" `shouldEvaluateTo` Left ArgumentError
+        "1 apply" `shouldEvaluateTo` Left ArgumentError
 
     describe "swap" $ do
       it "works when atleast two values are in the stack" $ do
@@ -66,4 +66,4 @@ shouldEvaluateTo :: String -> Either EvalError String -> Expectation
 shouldEvaluateTo x y = show' (evalString x) `shouldBe` y
                        where
                          show' (Left err) = Left err
-                         show' (Right state) = Right $ show $ stack state
+                         show' (Right state) = Right $ showStack $ stack state
