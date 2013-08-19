@@ -1,6 +1,7 @@
 module Catena.ParserSpec (main, spec) where
 
 import Test.Hspec
+import Catena
 import Catena.Parser
 
 main :: IO ()

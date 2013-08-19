@@ -1,5 +1,4 @@
 module Catena.Parser (
-  AST(..),
   parse,
   parse1
 ) where

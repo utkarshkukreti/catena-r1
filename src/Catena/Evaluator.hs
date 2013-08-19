@@ -1,5 +1,4 @@
 module Catena.Evaluator (
-  State(..),
   defaultState,
   eval,
   eval1,
