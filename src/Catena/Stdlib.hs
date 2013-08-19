@@ -27,7 +27,7 @@ iii f = onlyStack 2 f'
             f' [Integer y, Integer x] = Just [Integer $ f x y]
             f' _                      = Nothing
 
-lll :: ([Token] -> [Token] -> [Token]) -> State -> Result
+lll :: ([AST] -> [AST] -> [AST]) -> State -> Result
 lll f = onlyStack 2 f'
           where
             f' [List y, List x] = Just [List $ f x y]
@@ -50,7 +50,7 @@ apply state@State{queue = _queue, stack = _stack} = case left of
         where
           (left, right) = splitAt 1 _stack
 
-onlyStack :: Int -> ([Token] -> Maybe [Token]) -> State -> Result
+onlyStack :: Int -> ([AST] -> Maybe [AST]) -> State -> Result
 onlyStack i f state@State{stack = _stack}
   | length _stack < i = Left $ NotEnoughArgumentsError i $ length _stack
   | otherwise         = case f left of

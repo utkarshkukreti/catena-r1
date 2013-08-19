@@ -1,5 +1,5 @@
 module Catena (
-  Token(..),
+  AST(..),
   State(..),
   Error(..),
   Result,
@@ -9,13 +9,13 @@ module Catena (
 
 import Data.List (intercalate)
 
-data Token = Integer Integer
+data AST = Integer Integer
            | String String
            | Atom String
-           | List [Token]
+           | List [AST]
              deriving (Eq)
 
-data State = State { stack :: [Token], queue :: [Token] }
+data State = State { stack :: [AST], queue :: [AST] }
              deriving (Eq, Show)
 
 data Error = NotFoundError String
@@ -26,14 +26,14 @@ data Error = NotFoundError String
 
 type Result = Either Error State
 
-instance Show (Token) where
+instance Show (AST) where
   show (Integer x) = show x
   show (String x)  = show x
   show (Atom x)    = x
   show (List xs)   = "[" ++ intercalate ", " (map show xs) ++ "]"
 
-showStack :: [Token] -> String
+showStack :: [AST] -> String
 showStack = show . List . reverse
 
-showQueue :: [Token] -> String
+showQueue :: [AST] -> String
 showQueue = showStack
