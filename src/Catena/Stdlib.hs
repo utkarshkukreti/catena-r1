@@ -43,10 +43,12 @@ swap :: State -> Result
 swap = onlyStack 2 $ \[y, x] -> Just [x, y]
 
 apply :: State -> Result
-apply state@State{queue = _queue, stack = _stack} = case take 1 _stack of
-        [List x] -> Right state { queue = x ++ _queue, stack = drop 1 _stack }
+apply state@State{queue = _queue, stack = _stack} = case left of
+        [List x] -> Right state { queue = x ++ _queue, stack = right }
         []       -> Left $ NotEnoughArgumentsError 1 0
         _        -> Left ArgumentError
+        where
+          (left, right) = splitAt 1 _stack
 
 onlyStack :: Int -> ([Token] -> Maybe [Token]) -> State -> Result
 onlyStack i f state@State{stack = _stack}
